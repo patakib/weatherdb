@@ -1,28 +1,31 @@
-CREATE TABLE IF NOT EXISTS weather_daily (
+CREATE TABLE IF NOT EXISTS weather_daily_forecast (
     city VARCHAR(50),
-    date DATE,
+    forecast_date DATE,
+    time DATE,
     temperature_2m_max DECIMAL,
     temperature_2m_min DECIMAL,
-    temperature_2m_mean DECIMAL,
     sunrise TIMESTAMP,
     sunset TIMESTAMP,
     precipitation_sum_mm DECIMAL,
     rain_sum_mm DECIMAL,
     snowfall_sum_cm DECIMAL,
-    precipitation_hours INTEGER,
+    precipitation_hours DECIMAL,
+    precipitation_probability_max INTEGER,
     windspeed_10m_max DECIMAL,
     winddirection_10m_dominant INTEGER
 );
 
-CREATE TABLE IF NOT EXISTS weather_hourly (
+CREATE TABLE IF NOT EXISTS weather_hourly_forecast (
     city VARCHAR(50),
-    datetime TIMESTAMP,
+    forecast_date DATE,
+    time TIMESTAMP,
     temperature_2m DECIMAL,
-    precipitation_mm DECIMAL,
-    rain_mm DECIMAL,
-    snowfall_cm DECIMAL,
-    precipitation_hours INTEGER,
-    windspeed_10m DECIMAL,
-    winddirection_10m INTEGER,
-    weather_code INTEGER
+    precipitation_probability_percent INTEGER, 
+    precipitation_mm DECIMAL, 
+    rain_mm DECIMAL, 
+    snowfall_cm DECIMAL, 
+    weather_code INTEGER,
+    cloud_cover_percent INTEGER, 
+    windspeed_10m DECIMAL, 
+    winddir_10m INTEGER
 );
