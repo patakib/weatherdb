@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: weather
+  name: weather-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: weatherdb
+  template:
+    metadata:
+      labels:
+        app: weatherdb
+    spec:
+      volumes:
+        - name: postgres-pv
+          persistentVolumeClaim:
+            claimName: postgres-pvc
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: weather-db
+          image: patakib/weatherdb-arm64:0.1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: weather-postgres-user
+                  key: POSTGRES_USER
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: weather-postgres-db
+                  key: POSTGRES_DB
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: weather-postgres-password
+                  key: POSTGRES_PASSWORD
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgres-pv
+
